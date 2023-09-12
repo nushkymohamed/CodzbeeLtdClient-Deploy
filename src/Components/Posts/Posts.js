@@ -15,7 +15,7 @@ function Posts() {
   const [postReactions, setPostReactions] = useState({});
   useEffect(() => {
     axios
-      .get('https://todo-app-nodeapi.onrender.com/api/posts')
+      .get('https://blog-service-bik7.onrender.com/api/posts')
       .then((response) => {
         setPosts(response.data);
       });
@@ -72,7 +72,7 @@ function Posts() {
     data.append('image', formData.image);
 
     axios
-      .post('https://todo-app-nodeapi.onrender.com/api/posts', data)
+      .post('https://blog-service-bik7.onrender.com/api/posts', data)
       .then((response) => {
         toast.success('New Post Created', { autoClose: 3000 });
         setPosts([...posts, response.data.post]);
@@ -157,7 +157,7 @@ function Posts() {
               className=" rounded-xl border-2 border-gray-200 font-serif  overflow-hidden hover:bg-gray-50 shadow-xl"
             >
               <img
-                src={`https://todo-app-nodeapi.onrender.com/${post.imageUrl}`}
+                src={`https://blog-service-bik7.onrender.com/${post.imageUrl}`}
                 alt={post.title}
                 className="w-full h-[250px] object-cover"
               />
