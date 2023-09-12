@@ -14,9 +14,11 @@ function Posts() {
   });
   const [postReactions, setPostReactions] = useState({});
   useEffect(() => {
-    axios.get('http://localhost:8000/api/posts').then((response) => {
-      setPosts(response.data);
-    });
+    axios
+      .get('https://todo-app-nodeapi.onrender.com/api/posts')
+      .then((response) => {
+        setPosts(response.data);
+      });
   }, []);
 
   // Initialize postReactions with default values
@@ -69,11 +71,13 @@ function Posts() {
     data.append('description', formData.description);
     data.append('image', formData.image);
 
-    axios.post('http://localhost:8000/api/posts', data).then((response) => {
-      toast.success('New Post Created', { autoClose: 3000 });
-      setPosts([...posts, response.data.post]);
-      setFormData({ title: '', description: '', image: null });
-    });
+    axios
+      .post('https://todo-app-nodeapi.onrender.com/api/posts', data)
+      .then((response) => {
+        toast.success('New Post Created', { autoClose: 3000 });
+        setPosts([...posts, response.data.post]);
+        setFormData({ title: '', description: '', image: null });
+      });
   };
 
   return (
@@ -153,7 +157,7 @@ function Posts() {
               className=" rounded-xl border-2 border-gray-200 font-serif  overflow-hidden hover:bg-gray-50 shadow-xl"
             >
               <img
-                src={`http://localhost:8000/${post.imageUrl}`}
+                src={`https://todo-app-nodeapi.onrender.com/${post.imageUrl}`}
                 alt={post.title}
                 className="w-full h-[250px] object-cover"
               />
