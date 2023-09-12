@@ -1,0 +1,165 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { AiOutlineLike,AiOutlineDislike } from "react-icons/ai";
+import { RiDeleteBinLine } from "react-icons/ri";
+
+function Posts() {
+  const [posts, setPosts] = useState([]);
+  const [formData, setFormData] = useState({ title: '', description: '', image: null });
+  const [postReactions, setPostReactions] = useState({});
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/posts').then((response) => {
+      setPosts(response.data);
+    });
+  }, []);
+
+// Initialize postReactions with default values
+  useEffect(() => {
+    const initialReactions = {};
+    posts.forEach((post) => {
+      initialReactions[post.id] = { likes: 0, dislikes: 0 };
+    });
+    setPostReactions(initialReactions);
+  }, [posts]);
+
+  const handleLike = (postId) => {
+    // Update likes count in the state for the specified post
+    setPostReactions((prevReactions) => ({
+      ...prevReactions,
+      [postId]: { ...prevReactions[postId], likes: prevReactions[postId].likes + 1 },
+    }));
+    // You can also make an API request to update the likes count in the database.
+  };
+
+  const handleDislike = (postId) => {
+    // Update dislikes count in the state for the specified post
+    setPostReactions((prevReactions) => ({
+      ...prevReactions,
+      [postId]: { ...prevReactions[postId], dislikes: prevReactions[postId].dislikes + 1 },
+    }));
+    // You can also make an API request to update the dislikes count in the database.
+  };
+
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleImageChange = (e) => {
+    setFormData({ ...formData, image: e.target.files[0] });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const data = new FormData();
+    data.append('title', formData.title);
+    data.append('description', formData.description);
+    data.append('image', formData.image);
+
+    axios.post('http://localhost:8000/api/posts', data).then((response) => {
+      setPosts([...posts, response.data.post]);
+      setFormData({ title: '', description: '', image: null });
+    });
+  };
+
+  return (
+     <>
+       <div className="col-span-3 p-4 shadow-lg">
+         <form onSubmit={handleSubmit} className="mb-4  md:shadow-lg md:px-[20px] px-[5px] md:py-[15px] py-[7px]">
+           <h1 className="md:text-xl text-gray-500 font-bold mb-4">New Post</h1>
+           <div className="mb-4 md:text-base text-sm">
+             <label htmlFor="title" className="block font-medium text-gray-700 ">
+               Title
+             </label>
+             <input
+                 type="text"
+                 id="title"
+                 name="title"
+                 value={formData.title}
+                 onChange={handleInputChange}
+                 className="form-input mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-md h-[40px]"
+                 required
+             />
+           </div>
+           <div className="mb-4 md:text-base text-sm">
+             <label htmlFor="description" className="block font-medium text-gray-700">
+               Description
+             </label>
+             <textarea
+                 id="description"
+                 name="description"
+                 value={formData.description}
+                 onChange={handleInputChange}
+                 className="form-textarea mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-md"
+                 rows="4"
+                 required
+             ></textarea>
+           </div>
+           <div className="mb-4 md:text-base text-sm">
+             <label htmlFor="image" className="block font-medium text-gray-700">
+               Image
+             </label>
+             <input
+                 type="file"
+                 id="image"
+                 name="image"
+                 onChange={handleImageChange}
+                 className="form-input mt-1 block w-full rounded-md border-gray-300 pt-[5px]"
+                 accept="image/*"
+                 required
+             />
+           </div>
+           <div className="mb-4">
+             <button
+                 type="submit"
+                 className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+             >
+               Create Post
+             </button>
+           </div>
+         </form>
+         <div className={"pb-[20px] pt-[30px]"}>
+           <span className={"text-xl text-gray-600 font-bold "}> My Posts</span>
+         </div>
+
+         <div className="grid grid-cols-1 gap-4 bg-white">
+           {posts.map((post, index) => (
+               <div key={index} className=" rounded-xl border-2 border-gray-200 font-serif  overflow-hidden hover:bg-gray-50 shadow-xl">
+                 <img
+                     src={`http://localhost:8000/${post.imageUrl}`}
+                     alt={post.title}
+                     className="w-full h-[250px] object-cover"
+                 />
+                 <div className="p-4 bg-white hover:bg-gray-50">
+                   <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
+                   <p className="text-gray-700">{post.description}</p>
+
+                   <div className={"pt-[30px] grid grid-cols-7 gap-[50px]"}>
+                     <div className={"col-span-2"}>
+                       <button className={"hover:bg-gray-100"}>
+                         <RiDeleteBinLine size={25}  />
+                       </button>
+                     </div>
+                     <div className={"col-span-3 invisible"}>
+                       <span> Hello</span>
+                     </div>
+                     <div className={"col-span-2 flex gap-4 "}>
+                       <button onClick={() => handleLike(post.id)} ><AiOutlineLike size={25}  /> ({postReactions[post.id]?.likes || 0})</button>
+                       <button onClick={() => handleDislike(post.id)}><AiOutlineDislike size={25}  /> ({postReactions[post.id]?.dislikes || 0})</button>
+                     </div>
+
+                   </div>
+                 </div>
+
+               </div>
+           ))}
+         </div>
+       </div>
+
+     </>
+  );
+}
+
+export default Posts;
