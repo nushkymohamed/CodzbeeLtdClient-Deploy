@@ -167,7 +167,7 @@ function Posts() {
                 </h2>
                 <p className="">{post.description}</p>
 
-                <div className={'pt-[30px] grid grid-cols-7 gap-[50px]'}>
+                <div className={'pt-[30px] grid grid-cols-7 md:gap-[50px]'}>
                   <div className={'col-span-2'}>
                     <button className={'hover:bg-gray-100'}>
                       <RiDeleteBinLine size={25} />
