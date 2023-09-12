@@ -14,15 +14,23 @@ function WebNavigation() {
               <div className={'col-span-1 flex md:gap-[20px] gap-[10px] '}>
                 <button>
                   {' '}
-                  <AiFillNotification size={25} color={''} />
+                  <AiFillNotification size={25} className="text-blue-950" />
                 </button>
                 <button>
                   {' '}
-                  <AiFillMessage size={25} color={''} />
+                  <AiFillMessage
+                    size={25}
+                    color={''}
+                    className="text-blue-950"
+                  />
                 </button>
                 <button>
                   {' '}
-                  <IoSettingsSharp size={25} color={''} />
+                  <IoSettingsSharp
+                    size={25}
+                    color={''}
+                    className="text-blue-950"
+                  />
                 </button>
               </div>
             </div>
@@ -32,15 +40,27 @@ function WebNavigation() {
               >
                 <button>
                   {' '}
-                  <AiFillNotification size={20} color={''} />
+                  <AiFillNotification
+                    size={20}
+                    color={''}
+                    className="text-blue-950"
+                  />
                 </button>
                 <button>
                   {' '}
-                  <AiFillMessage size={20} color={''} />
+                  <AiFillMessage
+                    size={20}
+                    color={''}
+                    className="text-blue-950"
+                  />
                 </button>
                 <button>
                   {' '}
-                  <IoSettingsSharp size={20} color={''} />
+                  <IoSettingsSharp
+                    size={20}
+                    color={''}
+                    className="text-blue-950"
+                  />
                 </button>
               </div>
             </div>
