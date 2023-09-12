@@ -183,6 +183,14 @@ function Posts() {
             </div>
           ))}
         </div>
+        <div className="flex justify-center items-center md:pt-[80px] pt-[40px]">
+          <button
+            type="submit"
+            className="bg-blue-950 hover:bg-blue-900 text-white font-semibold py-2 px-4 rounded"
+          >
+            Load More
+          </button>
+        </div>
       </div>
     </>
   );
