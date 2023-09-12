@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
 import { RiDeleteBinLine } from 'react-icons/ri';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -12,9 +14,11 @@ function Posts() {
   });
   const [postReactions, setPostReactions] = useState({});
   useEffect(() => {
-    axios.get('http://localhost:8000/api/posts').then((response) => {
-      setPosts(response.data);
-    });
+    axios
+      .get('https://blog-service-bik7.onrender.com/api/posts')
+      .then((response) => {
+        setPosts(response.data);
+      });
   }, []);
 
   // Initialize postReactions with default values
@@ -67,15 +71,19 @@ function Posts() {
     data.append('description', formData.description);
     data.append('image', formData.image);
 
-    axios.post('http://localhost:8000/api/posts', data).then((response) => {
-      setPosts([...posts, response.data.post]);
-      setFormData({ title: '', description: '', image: null });
-    });
+    axios
+      .post('https://blog-service-bik7.onrender.com/api/posts', data)
+      .then((response) => {
+        toast.success('New Post Created', { autoClose: 3000 });
+        setPosts([...posts, response.data.post]);
+        setFormData({ title: '', description: '', image: null });
+      });
   };
 
   return (
     <>
       <div className="col-span-3 p-4 shadow-lg">
+        <ToastContainer />
         <form
           onSubmit={handleSubmit}
           className="mb-4  md:shadow-lg md:px-[20px] px-[5px] md:py-[15px] py-[7px]"
@@ -149,7 +157,7 @@ function Posts() {
               className=" rounded-xl border-2 border-gray-200 font-serif  overflow-hidden hover:bg-gray-50 shadow-xl"
             >
               <img
-                src={`http://localhost:8000/${post.imageUrl}`}
+                src={`https://blog-service-bik7.onrender.com/${post.imageUrl}`}
                 alt={post.title}
                 className="w-full h-[250px] object-cover"
               />

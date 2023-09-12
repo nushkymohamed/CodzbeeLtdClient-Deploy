@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import WebNavigation from "./Components/Navigation/Navigation";
-import Contacts from "./Components/Contacts/Contacts";
-import Posts from "./Components/Posts/Posts";
-import PopularPosts from "./Components/PopularPosts/PopularPosts";
-import Logo from "./Assets/logo.png";
-import Footer from "./Components/Footer/Footer";
+import WebNavigation from './Components/Navigation/Navigation';
+import Contacts from './Components/Contacts/Contacts';
+import Posts from './Components/Posts/Posts';
+import PopularPosts from './Components/PopularPosts/PopularPosts';
+import Logo from './Assets/logo.png';
+import Footer from './Components/Footer/Footer';
 function App() {
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
   const [blogs, setBlogs] = useState([]);
-  const [formData, setFormData] = useState({ title: '', description: '', image: null });
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    image: null,
+  });
   const [postReactions, setPostReactions] = useState({});
   useEffect(() => {
     axios.get('http://localhost:8000/api/posts').then((response) => {
@@ -23,14 +27,14 @@ function App() {
     });
   }, []);
   useEffect(() => {
-    axios.get('https://picsum.photos/v2/list?page=1&limit=10').then((response) => {
-      setBlogs(response.data);
-    });
+    axios
+      .get('https://picsum.photos/v2/list?page=1&limit=10')
+      .then((response) => {
+        setBlogs(response.data);
+      });
   }, []);
 
-
-
-// Initialize postReactions with default values
+  // Initialize postReactions with default values
   useEffect(() => {
     const initialReactions = {};
     posts.forEach((post) => {
@@ -43,7 +47,10 @@ function App() {
     // Update likes count in the state for the specified post
     setPostReactions((prevReactions) => ({
       ...prevReactions,
-      [postId]: { ...prevReactions[postId], likes: prevReactions[postId].likes + 1 },
+      [postId]: {
+        ...prevReactions[postId],
+        likes: prevReactions[postId].likes + 1,
+      },
     }));
     // You can also make an API request to update the likes count in the database.
   };
@@ -52,11 +59,13 @@ function App() {
     // Update dislikes count in the state for the specified post
     setPostReactions((prevReactions) => ({
       ...prevReactions,
-      [postId]: { ...prevReactions[postId], dislikes: prevReactions[postId].dislikes + 1 },
+      [postId]: {
+        ...prevReactions[postId],
+        dislikes: prevReactions[postId].dislikes + 1,
+      },
     }));
     // You can also make an API request to update the dislikes count in the database.
   };
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -82,15 +91,15 @@ function App() {
   };
 
   return (
-     <>
-      <WebNavigation/>
-       <div className={"md:grid grid-cols-7  px-[20px] pb-[25px] pt-[100px]"}>
-      <Contacts/>
-       <Posts/>
-       <PopularPosts/>
-       </div>
-      <Footer/>
-     </>
+    <>
+      <WebNavigation />
+      <div className={'md:grid grid-cols-7  px-[20px] pb-[25px] pt-[100px]'}>
+        <Contacts />
+        <Posts />
+        <PopularPosts />
+      </div>
+      <Footer />
+    </>
   );
 }
 
