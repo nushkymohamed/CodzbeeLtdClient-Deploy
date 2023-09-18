@@ -17,9 +17,11 @@ function App() {
   });
   const [postReactions, setPostReactions] = useState({});
   useEffect(() => {
-    axios.get('http://localhost:8000/api/posts').then((response) => {
-      setPosts(response.data);
-    });
+    axios
+      .get('https://blog-service-bik7.onrender.com/api/posts')
+      .then((response) => {
+        setPosts(response.data);
+      });
   }, []);
   useEffect(() => {
     axios.get('https://jsonplaceholder.typicode.com/users').then((response) => {
@@ -84,10 +86,12 @@ function App() {
     data.append('description', formData.description);
     data.append('image', formData.image);
 
-    axios.post('http://localhost:8000/api/posts', data).then((response) => {
-      setPosts([...posts, response.data.post]);
-      setFormData({ title: '', description: '', image: null });
-    });
+    axios
+      .post('https://blog-service-bik7.onrender.com/api/posts', data)
+      .then((response) => {
+        setPosts([...posts, response.data.post]);
+        setFormData({ title: '', description: '', image: null });
+      });
   };
 
   return (
